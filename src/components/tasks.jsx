@@ -9,34 +9,47 @@ function newTask(task, state){
 
 class Tasks extends Component {
     state = { 
-        tasks:[{id: 1, task: "do this and that"}] 
+        tasks:[{id: 2, task: "do this and that"}] 
     };
     
 
     addTask =()=>{
         const task = document.getElementById('in').value;
-        const task_ = new newTask(task, this.state);
-        const tasks = [...this.state.tasks];
-        task_.id = tasks.length + 1;
-        tasks.push(task_);
-        
-        this.setState({ tasks });
-        console.log("task add fini2>>> ", task, this.state.tasks);
-    }
+        if (task){
+            const task_ = new newTask(task, this.state);
+            const tasks = [...this.state.tasks];
+            task_.id = tasks.length + 1;
+            tasks.push(task_);
+            this.setState({ tasks });
+        }
+        else {
+            window.setTimeout(alert("No task added"), 3000);
+        };
+    };
 
     deleteTask = id =>{
         const tasks = this.state.tasks.filter(task => task.id !== id);
         this.setState({ tasks });
-        console.log('delete', tasks ,'<<>>',this.state.tasks)
     }
 
     editTask = id =>{
         const input = document.getElementById('in').value;
-        const tasks = [...this.state.tasks];
-        const task_ = tasks.filter( c => c.id === id );
-        task_.task = input
-        this.setState({ Tasks })
 
+        if (input){
+            const tasks = [...this.state.tasks];
+            const task_ = tasks.filter( c => c.id === id );
+            task_[0].task = input
+            tasks.forEach((taskr, i)=>{
+                if (taskr.id === task_[0].id){
+                    tasks[i] = task_
+                }
+            })
+            this.setState({ Tasks })
+
+        }
+        else {
+            window.setTimeout(alert("No edit made"), 3000);
+        }
     }
 
     // handleInput = (data) =>{
